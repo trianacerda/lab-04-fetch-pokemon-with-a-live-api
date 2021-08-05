@@ -1,20 +1,18 @@
-import React, { Component } from 'react';
-import Pokeitem from './Pokeitem.js';
+import React, { Component } from "react";
+import Pokeitem from "./Pokeitem.js";
 
 class Pokelist extends Component {
-    render() { 
-        return (
-            <ul>
-                {this.props.results.pokemon.map((item) => {
-                <Pokeitem
-                key={ item.pokemon }
-                name={ item }
-                />
-                })}
-            </ul>
-        );
-    }
+  render() {
+    const { pokedex } = this.props;
+    console.log(pokedex);
+    return (
+      <ul>
+        {pokedex.map((item, index) => {
+          return <Pokeitem key={index} pokemon={item} />;
+        })}
+      </ul>
+    );
+  }
 }
- 
-export default Pokelist;
 
+export default Pokelist;

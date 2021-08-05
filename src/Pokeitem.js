@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-
-
+import React, { Component } from "react";
 
 class Pokeitem extends Component {
-    render() { 
-        return (  
-            <li>
-                <h3>{ this.props.results.pokemon }</h3>
-            </li>
-        );
-    }
+  render() {
+    const { pokemon } = this.props;
+    return (
+      <li>
+        <h3>{pokemon.pokemon}</h3>
+        <h3>{pokemon.pokemon}</h3>
+      </li>
+    );
+  }
 }
- 
+
 export default Pokeitem;
