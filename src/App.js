@@ -14,17 +14,19 @@ class App extends Component {
   };
 
   fetchData = async () => {
-    const { query, sortCriteria } = this.state;
+    const { query, sortCriteria, sortOrder } = this.state;
     let url = "https://pokedex-alchemy.herokuapp.com/api/pokedex";
     if (query) {
       url = url + `?${sortCriteria}=${query}`;
-    }
+    // } else if {
+    //   url = url + `?${sortOrder}=${query}`;
+    // }
+    
     let response = await fetch(url);
     let { results } = await response.json();
 
     this.setState({ pokeData: results, loading: false });
-  };
-
+  }; 
   changeOrder = async (event) => {
     await this.setState({ sortOrder: event.target.value });
     this.fetchData();
