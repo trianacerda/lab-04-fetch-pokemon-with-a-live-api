@@ -36,7 +36,18 @@
     transform: rotate(360deg);
   }
 }
+li {
+  list-style-type: none;
+}
 #loading-img {
   display: flex;
   justify-content: center;
+}
+#pokeText {
+  border: coral solid 4px;
+  border-radius: 50px;
+  text-align: center;
+}
+#pokeImg {
+  border: blueviolet 4px dotted;
 }
