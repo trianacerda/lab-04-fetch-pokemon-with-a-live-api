@@ -9,7 +9,7 @@ class Dropdown extends Component {
         <select onChange={changeEvent}>
           {options.map((item, index) => (
             <option key={index} value={item}>
-              {item}
+              {item === " " ? "All Pokemon" : item}
             </option>
           ))}
         </select>
