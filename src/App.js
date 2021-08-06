@@ -10,23 +10,35 @@ class App extends Component {
     loading: true,
     query: null,
     sortCriteria: "",
-    sortOrder: "",
+    sortOrder: "asc",
   };
+
+  componentDidMount() {
+    this.fetchData();
+  }
 
   fetchData = async () => {
     const { query, sortCriteria, sortOrder } = this.state;
     let url = "https://pokedex-alchemy.herokuapp.com/api/pokedex";
+    let searchParams = new URLSearchParams();
+    searchParams.set("perPage", 7);
     if (query) {
-      url = url + `?${sortCriteria}=${query}`;
-    // } else if {
-    //   url = url + `?${sortOrder}=${query}`;
-    // }
-    
+      searchParams.set("pokemon", query);
+    }
+    if (sortOrder) {
+      searchParams.set("sort", "pokemon");
+      searchParams.set("direction", sortOrder);
+    }
+    if (sortCriteria) {
+      searchParams.set(sortCriteria, query);
+    }
+    url = url + `?${searchParams.toString()}`;
+
     let response = await fetch(url);
     let { results } = await response.json();
 
     this.setState({ pokeData: results, loading: false });
-  }; 
+  };
   changeOrder = async (event) => {
     await this.setState({ sortOrder: event.target.value });
     this.fetchData();
@@ -39,10 +51,6 @@ class App extends Component {
   updateQuery = (event) => {
     this.setState({ query: event.target.value });
   };
-
-  componentDidMount() {
-    this.fetchData();
-  }
 
   render() {
     const changeOrderOptions = ["asc", "desc"];
@@ -83,13 +91,3 @@ class App extends Component {
 }
 
 export default App;
-
-/* <input></input>
-      <select>ASC/DESC</select>
-        <option>DESC</option>
-        <option>ASC</option> */
-
-/* loadData
-      componentDidMount()
-      fetchData
-      handleChange */
