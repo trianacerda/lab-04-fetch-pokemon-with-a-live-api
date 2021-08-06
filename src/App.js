@@ -3,6 +3,7 @@ import "./App.css";
 import Pokelist from "./Pokelist.js";
 import Dropdown from "./Dropdown.js";
 import criteriaList from "./criteriaList.js";
+import Loader from "react-loader-spinner";
 
 class App extends Component {
   state = {
@@ -36,8 +37,9 @@ class App extends Component {
 
     let response = await fetch(url);
     let { results } = await response.json();
-
-    this.setState({ pokeData: results, loading: false });
+    setTimeout(() => {
+      this.setState({ pokeData: results, loading: false });
+    }, 3000);
   };
   changeOrder = async (event) => {
     await this.setState({ sortOrder: event.target.value });
@@ -67,7 +69,11 @@ class App extends Component {
     return (
       <>
         <h2>POKEMON</h2>
-        {loading && <h3> LOADING POKEMON, PLZ WAIT</h3>}
+        <section id="loading-img">
+          {loading && (
+            <Loader type="Hearts" color="#00BFFF" height={200} width={500} />
+          )}
+        </section>
         {!loading && (
           <section>
             <input onChange={this.updateQuery} type="text"></input>
