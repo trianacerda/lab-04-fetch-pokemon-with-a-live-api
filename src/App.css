@@ -50,4 +50,5 @@ li {
 }
 #pokeImg {
   border: blueviolet 4px dotted;
+  border-radius: 50px;
 }
