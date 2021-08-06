@@ -4,7 +4,6 @@ import Pokeitem from "./Pokeitem.js";
 class Pokelist extends Component {
   render() {
     const { pokedex } = this.props;
-    console.log(pokedex);
     return (
       <ul>
         {pokedex.map((item, index) => {

@@ -1,26 +1,23 @@
 import { Component } from "react";
 import "./App.css";
 import Pokelist from "./Pokelist.js";
+import Dropdown from "./Dropdown.js";
 
 class App extends Component {
   state = { pokeData: [], loading: true, query: null };
 
   fetchData = async () => {
-    const { query, desc, asc } = this.state;
+    const { query } = this.state;
     let url = "https://pokedex-alchemy.herokuapp.com/api/pokedex";
     if (query) {
       url = url + `?search=${query}`;
     }
     let response = await fetch(url);
     let { results } = await response.json();
-    console.log(results);
+
     this.setState({ pokeData: results, loading: false });
   };
 
-  updateQuery = (event) => {
-    this.fetchData();
-    this.setState({ query: event.target.value });
-  };
   changeOrder = (event) => {
     this.fetchData();
     this.setState({ sortOrder: event.target.value });
@@ -42,10 +39,16 @@ class App extends Component {
           <section>
             <input onChange={this.updateQuery} type="text"></input>
             <button onClick={this.fetchData}>Search Pokemon</button>
-            <select onChange={this.changeOrder}>
-              <option>ASC</option>
-              <option>DESC</option>
-            </select>
+            <Dropdown
+              label="asc or desc order"
+              options={[]}
+              changeEvent={this.changeOrder}
+            />
+            <Dropdown
+              label="change criteria"
+              options={[]}
+              changeEvent={this.changeOrder}
+            />
             <Pokelist pokedex={pokeData} />
           </section>
         )}
