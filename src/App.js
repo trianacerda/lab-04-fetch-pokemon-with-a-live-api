@@ -3,6 +3,7 @@ import "./App.css";
 import Pokelist from "./Pokelist.js";
 import Dropdown from "./Dropdown.js";
 import criteriaList from "./criteriaList.js";
+import Loader from "react-loader-spinner";
 
 class App extends Component {
   state = {
@@ -10,23 +11,36 @@ class App extends Component {
     loading: true,
     query: null,
     sortCriteria: "",
-    sortOrder: "",
+    sortOrder: "asc",
   };
+
+  componentDidMount() {
+    this.fetchData();
+  }
 
   fetchData = async () => {
     const { query, sortCriteria, sortOrder } = this.state;
     let url = "https://pokedex-alchemy.herokuapp.com/api/pokedex";
+    let searchParams = new URLSearchParams();
+    searchParams.set("perPage", 7);
     if (query) {
-      url = url + `?${sortCriteria}=${query}`;
-    // } else if {
-    //   url = url + `?${sortOrder}=${query}`;
-    // }
-    
+      searchParams.set("pokemon", query);
+    }
+    if (sortOrder) {
+      searchParams.set("sort", "pokemon");
+      searchParams.set("direction", sortOrder);
+    }
+    if (sortCriteria) {
+      searchParams.set(sortCriteria, query);
+    }
+    url = url + `?${searchParams.toString()}`;
+
     let response = await fetch(url);
     let { results } = await response.json();
-
-    this.setState({ pokeData: results, loading: false });
-  }; 
+    setTimeout(() => {
+      this.setState({ pokeData: results, loading: false });
+    }, 3000);
+  };
   changeOrder = async (event) => {
     await this.setState({ sortOrder: event.target.value });
     this.fetchData();
@@ -39,10 +53,6 @@ class App extends Component {
   updateQuery = (event) => {
     this.setState({ query: event.target.value });
   };
-
-  componentDidMount() {
-    this.fetchData();
-  }
 
   render() {
     const changeOrderOptions = ["asc", "desc"];
@@ -59,7 +69,11 @@ class App extends Component {
     return (
       <>
         <h2>POKEMON</h2>
-        {loading && <h3> LOADING POKEMON, PLZ WAIT</h3>}
+        <section id="loading-img">
+          {loading && (
+            <Loader type="Hearts" color="#00BFFF" height={200} width={500} />
+          )}
+        </section>
         {!loading && (
           <section>
             <input onChange={this.updateQuery} type="text"></input>
@@ -83,13 +97,3 @@ class App extends Component {
 }
 
 export default App;
-
-/* <input></input>
-      <select>ASC/DESC</select>
-        <option>DESC</option>
-        <option>ASC</option> */
-
-/* loadData
-      componentDidMount()
-      fetchData
-      handleChange */
