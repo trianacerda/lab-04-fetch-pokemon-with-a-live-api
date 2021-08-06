@@ -2,6 +2,7 @@ import { Component } from "react";
 import "./App.css";
 import Pokelist from "./Pokelist.js";
 import Dropdown from "./Dropdown.js";
+import criteriaList from "./criteriaList.js";
 
 class App extends Component {
   state = { pokeData: [], loading: true, query: null };
@@ -46,7 +47,7 @@ class App extends Component {
             />
             <Dropdown
               label="change criteria"
-              options={[]}
+              options={criteriaList}
               changeEvent={this.changeOrder}
             />
             <Pokelist pokedex={pokeData} />
