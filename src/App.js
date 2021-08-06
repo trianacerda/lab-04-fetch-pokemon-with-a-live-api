@@ -5,13 +5,19 @@ import Dropdown from "./Dropdown.js";
 import criteriaList from "./criteriaList.js";
 
 class App extends Component {
-  state = { pokeData: [], loading: true, query: null };
+  state = {
+    pokeData: [],
+    loading: true,
+    query: null,
+    sortCriteria: "",
+    sortOrder: "",
+  };
 
   fetchData = async () => {
-    const { query } = this.state;
+    const { query, sortCriteria } = this.state;
     let url = "https://pokedex-alchemy.herokuapp.com/api/pokedex";
     if (query) {
-      url = url + `?search=${query}`;
+      url = url + `?${sortCriteria}=${query}`;
     }
     let response = await fetch(url);
     let { results } = await response.json();
@@ -19,10 +25,15 @@ class App extends Component {
     this.setState({ pokeData: results, loading: false });
   };
 
-  changeOrder = (event) => {
+  changeOrder = async (event) => {
+    await this.setState({ sortOrder: event.target.value });
     this.fetchData();
-    this.setState({ sortOrder: event.target.value });
   };
+  changeCriteria = async (event) => {
+    await this.setState({ sortCriteria: event.target.value });
+    this.fetchData();
+  };
+
   updateQuery = (event) => {
     this.setState({ query: event.target.value });
   };
@@ -30,8 +41,19 @@ class App extends Component {
   componentDidMount() {
     this.fetchData();
   }
+
   render() {
+    const changeOrderOptions = ["asc", "desc"];
     const { pokeData, loading } = this.state;
+
+    const filteredPokemon = pokeData.filter(
+      (item) =>
+        (item.criteriaList === this.state.criteriaList ||
+          this.state.criteriaList === pokeData) &&
+        (item.changeOrderOptions === this.state.changeOrderOptions ||
+          this.state.changeOrderOptions === pokeData)
+    );
+
     return (
       <>
         <h2>POKEMON</h2>
@@ -41,16 +63,16 @@ class App extends Component {
             <input onChange={this.updateQuery} type="text"></input>
             <button onClick={this.fetchData}>Search Pokemon</button>
             <Dropdown
-              label="asc or desc order"
-              options={[]}
+              label="change pokemon order"
+              options={changeOrderOptions}
               changeEvent={this.changeOrder}
             />
             <Dropdown
               label="change criteria"
               options={criteriaList}
-              changeEvent={this.changeOrder}
+              changeEvent={this.changeCriteria}
             />
-            <Pokelist pokedex={pokeData} />
+            <Pokelist pokedex={filteredPokemon} />
           </section>
         )}
       </>

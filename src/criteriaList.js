@@ -1,12 +1,10 @@
-import React, { Component } from "react";
-
 const criteriaList = [
   "pokemon",
-  "type 1",
-  "type 2",
-  "ability 1",
-  "ability 2",
-  "ability hidden",
+  "type_1",
+  "type_2",
+  "ability_1",
+  "ability_2",
+  "ability_hidden",
   "shape",
 ];
 
