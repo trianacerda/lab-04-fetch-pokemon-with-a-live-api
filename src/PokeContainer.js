@@ -13,7 +13,7 @@ class PokeContainer extends Component {
     sortCriteria: "",
     sortOrder: "asc",
     sortType: "",
-    page: 1,
+    // page: 1,
   };
 
   componentDidMount() {
@@ -25,7 +25,7 @@ class PokeContainer extends Component {
     let url = "https://pokedex-alchemy.herokuapp.com/api/pokedex";
     let searchParams = new URLSearchParams();
 
-    searchParams.set("page", this.state.page);
+    // searchParams.set("page", this.state.page);
     searchParams.set("perPage", 7);
 
     if (query) {
