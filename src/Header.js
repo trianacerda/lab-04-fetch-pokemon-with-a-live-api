@@ -12,7 +12,6 @@ class Header extends Component {
             Home Page
           </NavLink>
           <NavLink to="/pokemon">All The Poke</NavLink>
-          <NavLink to="/pokemon/:id">Poke Details</NavLink>
         </div>
       </header>
     );

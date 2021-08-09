@@ -5,7 +5,7 @@ import PokeContainer from "./PokeContainer.js";
 import PokeDetails from "./PokeDetails.js";
 import Header from "./Header.js";
 import Home from "./Home.js";
-
+// import Pokeitem from "./Pokeitem.js";
 class App extends Component {
   state = {};
   render() {
