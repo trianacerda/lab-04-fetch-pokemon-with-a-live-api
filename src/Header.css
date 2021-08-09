@@ -1,0 +1,30 @@
+header {
+  min-width: 100vw;
+  height: 100px;
+  background-color: olivedrab;
+  color: #f8f4a6;
+  font-size: 2rem;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.links {
+  text-transform: none;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+.links a {
+  color: peachpuff;
+  text-decoration: none;
+}
+
+.links a.active,
+.links a:hover {
+  color: brown;
+}
