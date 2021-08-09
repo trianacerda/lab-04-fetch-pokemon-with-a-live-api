@@ -51,4 +51,12 @@ li {
 #pokeImg {
   border: blueviolet 4px dotted;
   border-radius: 50px;
+  max-width: 100%;
+  max-height: 50%;
+  height: auto;
+  padding: auto;
+}
+img {
+  max-width: 30%;
+  height: auto;
 }
