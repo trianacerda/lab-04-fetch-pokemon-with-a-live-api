@@ -88,7 +88,7 @@ class PokeContainer extends Component {
 
   render() {
     const changeOrderOptions = [" ", "asc", "desc"];
-    const { pokeData, loading, page, lastPage } = this.state;
+    const { pokeData, loading } = this.state;
 
     const filteredPokemon = pokeData.filter(
       (item) =>
