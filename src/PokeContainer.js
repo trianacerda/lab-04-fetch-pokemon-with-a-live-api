@@ -13,7 +13,8 @@ class PokeContainer extends Component {
     sortCriteria: "",
     sortOrder: "asc",
     sortType: "",
-    // page: 1,
+    page: 1,
+    lastPage: 1,
   };
 
   componentDidMount() {
@@ -25,8 +26,8 @@ class PokeContainer extends Component {
     let url = "https://pokedex-alchemy.herokuapp.com/api/pokedex";
     let searchParams = new URLSearchParams();
 
-    // searchParams.set("page", this.state.page);
-    searchParams.set("perPage", 7);
+    searchParams.set("page", this.state.page);
+    searchParams.set("perPage", 20);
 
     if (query) {
       searchParams.set("pokemon", query);
@@ -45,8 +46,10 @@ class PokeContainer extends Component {
 
     let response = await fetch(url);
     let { results } = await response.json();
+    const lastPage = Math.ceil(results.count / results.perPage);
+    console.log(lastPage);
     setTimeout(() => {
-      this.setState({ pokeData: results, loading: false });
+      this.setState({ pokeData: results, loading: false, lastPage });
     }, 1000);
   };
   changeOrder = async (event) => {
@@ -65,10 +68,27 @@ class PokeContainer extends Component {
   updateQuery = (event) => {
     this.setState({ query: event.target.value });
   };
+  prevPage = async () => {
+    await this.setState({ page: this.state.page - 1 });
+    this.fetchData();
+  };
+  nextPage = async () => {
+    await this.setState({ page: this.state.page + 1 });
+    this.fetchData();
+  };
+  goToLast = async () => {
+    this.setState({ page: this.state.lastPage });
+    this.fetchData();
+  };
+
+  searchPokemon = async () => {
+    await this.setState({ page: 1 });
+    this.fetchData();
+  };
 
   render() {
     const changeOrderOptions = [" ", "asc", "desc"];
-    const { pokeData, loading } = this.state;
+    const { pokeData, loading, page, lastPage } = this.state;
 
     const filteredPokemon = pokeData.filter(
       (item) =>
@@ -83,32 +103,43 @@ class PokeContainer extends Component {
     return (
       <>
         <h2>POKEMON</h2>
-        <section id="loading-img">
-          {loading && (
-            <Loader type="Hearts" color="#00BFFF" height={200} width={500} />
-          )}
-        </section>
+        <input onChange={this.updateQuery} type="text"></input>
+        <button onClick={this.searchPokemon}>Search Pokemon</button>
+        <Dropdown
+          label="change criteria"
+          options={criteriaList}
+          changeEvent={this.changeCriteria}
+        />
+        <Dropdown
+          label="change pokemon order"
+          options={changeOrderOptions}
+          changeEvent={this.changeOrder}
+        />
+        <Dropdown
+          label="element type"
+          options={typeList}
+          changeEvent={this.changeType}
+        />
+        <div className="next-prev-page">
+          <button onClick={this.prevPage}>Prev</button>
+          <button onClick={this.nextPage}>Next</button>
+          {/* <button onClick={this.goToLast}>Last Page</button> */}
+          {/* {page > 1 && }
+          {page < lastPage && (
+            <>
+            </>
+          )} */}
+        </div>
+        CURRENT PAGE: {this.state.page}
+        {/* <br />
+        LAST PAGE: {this.state.lastPage} */}
+        {loading && (
+          <Loader type="Hearts" color="#00BFFF" height={200} width={500} />
+        )}
         {!loading && (
-          <section>
-            <input onChange={this.updateQuery} type="text"></input>
-            <button onClick={this.fetchData}>Search Pokemon</button>
-            <Dropdown
-              label="change criteria"
-              options={criteriaList}
-              changeEvent={this.changeCriteria}
-            />
-            <Dropdown
-              label="change pokemon order"
-              options={changeOrderOptions}
-              changeEvent={this.changeOrder}
-            />
-            <Dropdown
-              label="element type"
-              options={typeList}
-              changeEvent={this.changeType}
-            />
+          <>
             <Pokelist pokedex={filteredPokemon} />
-          </section>
+          </>
         )}
       </>
     );
