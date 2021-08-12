@@ -35,6 +35,14 @@ class PokeDetails extends Component {
           <section>
             <h1> {data.pokemon} </h1>
             <div className="poke-deatils-page">
+            <h3>type 1: {data.type_1}</h3>
+            <h3>type 2: {data.type_2}</h3>
+            <h3>ability 1: {data.ability_1}</h3>
+            <h3>ability 2: {data.ability_2}</h3>
+            <h3>ability hidden: {data.ability_hidden}</h3>
+            <h3>shape: {data.shape}</h3>
+            <h3>hp: {data.hp}</h3>
+            <h3>speed: {data.speed}</h3>
               <img src={data.url_image} alt="poke" />
             </div>
           </section>
